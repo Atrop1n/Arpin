@@ -1,2 +1,7 @@
 scapy
 getmac
+socket
+fcntl
+struct
+ipaddress
+signal
