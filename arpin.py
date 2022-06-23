@@ -8,6 +8,7 @@ from tabnanny import verbose
 import scapy
 import getmac
 import os
+import ipaddress
 import sys
 import re
 import threading
@@ -15,16 +16,22 @@ from scapy.layers.inet import *
 from scapy.layers.l2 import ARP,Ether
 from scapy.all import *
 from os import walk
-
+import socket
+import fcntl
+import struct
 
 class client:
     def __init__(self, client_MAC, client_IP):
         self.client_MAC = client_MAC
         self.client_IP = client_IP
 
-
 def scan():
-    print("")
+    iface = "enp0s3"
+    subnet_mask = socket.inet_ntoa(fcntl.ioctl(socket.socket(socket.AF_INET, socket.SOCK_DGRAM), 35099, struct.pack(b'256s', iface.encode()))[20:24])
+    my_ip = socket.gethostbyname(socket.gethostname())
+    network = ipaddress.IPv4Network(my_ip+"/"+subnet_mask, strict=False)
+    print(network)
+    #print(ip_with_mask)
     target_ip = "192.168.1.1/24"
     packet = Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(pdst=target_ip) #ARP request for all clients on the network
     result = srp(packet, timeout=3, verbose=0)[0]
@@ -69,7 +76,6 @@ def select_interface():
         print("Retarded option detected\nQuitting...")
         exit()
     iface = f[int(iface_num)-1]
-
 
 def validate():
     if os.path.isdir("/sys/class/net/"+iface) == False:
