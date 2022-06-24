@@ -125,7 +125,7 @@ def stop():
 
 
 #--------------MAIN---------------#
-print("Created by Atropin\n\nFor malicious purposes only!\n")
+print("Created by Atropin\n\nFor ̶m̶a̶l̶i̶c̶i̶o̶u̶s educational purposes only!\n")
 print("[1] Scan the network\n[2] Quit")
 x = input("\n")
 while True:
