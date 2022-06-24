@@ -30,4 +30,4 @@ Attack is now running. You can sniff victim's packet by running
 ```
 sudo wireshark
 ```
-To stop the attack, press ENTER or ctrl+c.
+To stop the attack, press 'ENTER' or double press 'ctrl+c'.
