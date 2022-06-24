@@ -1,5 +1,5 @@
 # arpin by Atropin
-# for malicious purposes only
+# for ̶m̶a̶l̶i̶c̶i̶o̶u̶s educational purposes only
 
 
 import getmac
@@ -83,7 +83,7 @@ def select_interface():
     if int(iface_num) == len(f)+1:
         exit()
     if (int(iface_num) > len(f)+1)|int(iface_num)==0:
-        print("Retarded option detected\nQuitting...")
+        print("Invalid option detected\nQuitting...")
         exit()
     iface = f[int(iface_num)-1]
 
@@ -140,5 +140,5 @@ while True:
     if x == "2":
         exit()
     else:
-        print("Retarded option detected\nQuitting...")
+        print("Invalid option detected\nQuitting...")
         exit()
